@@ -1,0 +1,647 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="HTTPS关于2017年AppStore新提交应用必须打开ATS的要求只剩下一个多月了，相信大部分开发者都已经完成了从http到https的升级。当然了，现在谁也不知道如果依旧关闭ATS，审核的时候会发生什么。挑战apple的事，还是不要做比较好…最近看完了《HTTPS图解》，借花献佛，简要分享下相关知识点。
+HTTP与HTTPS区别HTTPS的URL以https开头，默认端口443。HTTP的U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS">
+<meta property="og:url" content="http://yoursite.com/2016/11/27/HTTPS/index.html">
+<meta property="og:site_name" content="乌托邦">
+<meta property="og:description" content="HTTPS关于2017年AppStore新提交应用必须打开ATS的要求只剩下一个多月了，相信大部分开发者都已经完成了从http到https的升级。当然了，现在谁也不知道如果依旧关闭ATS，审核的时候会发生什么。挑战apple的事，还是不要做比较好…最近看完了《HTTPS图解》，借花献佛，简要分享下相关知识点。
+HTTP与HTTPS区别HTTPS的URL以https开头，默认端口443。HTTP的U">
+<meta property="og:image" content="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/38/03/metablogapi/2021.080613_0416_SSLHandshak2.png">
+<meta property="og:image" content="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/38/03/metablogapi/7608.080613_0416_SSLHandshak4.png">
+<meta property="og:updated_time" content="2016-11-28T09:37:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTPS">
+<meta name="twitter:description" content="HTTPS关于2017年AppStore新提交应用必须打开ATS的要求只剩下一个多月了，相信大部分开发者都已经完成了从http到https的升级。当然了，现在谁也不知道如果依旧关闭ATS，审核的时候会发生什么。挑战apple的事，还是不要做比较好…最近看完了《HTTPS图解》，借花献佛，简要分享下相关知识点。
+HTTP与HTTPS区别HTTPS的URL以https开头，默认端口443。HTTP的U">
+<meta name="twitter:image" content="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/38/03/metablogapi/2021.080613_0416_SSLHandshak2.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/27/HTTPS/"/>
+
+
+  <title> HTTPS | 乌托邦 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85659127-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=58955822";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乌托邦</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HTTPS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-27T22:24:30+08:00" content="2016-11-27">
+              2016-11-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/27/HTTPS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/27/HTTPS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>关于2017年AppStore新提交应用必须打开ATS的要求只剩下一个多月了，相信大部分开发者都已经完成了从http到https的升级。当然了，现在谁也不知道如果依旧关闭ATS，审核的时候会发生什么。挑战apple的事，还是不要做比较好…<br>最近看完了《HTTPS图解》，借花献佛，简要分享下相关知识点。</p>
+<h3 id="HTTP与HTTPS区别"><a href="#HTTP与HTTPS区别" class="headerlink" title="HTTP与HTTPS区别"></a><a href="https://en.wikipedia.org/wiki/HTTPS#Difference_from_HTTP" target="_blank" rel="external">HTTP与HTTPS区别</a></h3><p>HTTPS的URL以https开头，默认端口443。HTTP的URL以http开头，默认端口80。<br>HTTP未加密，易受“中间人”攻击和信息窃取，攻击者可以获取网站账号、敏感信息，修改网页注入恶意软件或者广告。<br>HTTP（超文本传输协议）位于应用层，运行在TCP/IP模型的最上层。很重要的一点，HTTPS并不是一个新的或者单独的协议，而是在一个加密的TLS\SSL链接上使用HTTP协议。（HTTP over TLS,HTTP over SSL）</p>
+<h3 id="通信加密"><a href="#通信加密" class="headerlink" title="通信加密"></a>通信加密</h3><p>HTTP与TLS（Transport Layer Security）、SSL（Secure Sockets Layer）组合使用。<br>层次关系上，TLS\SSL位于HTTP层之下，因为网络通信需要一层层的走，所以保护之下的HTTP内的一切消息都是加密的，包括header、request、response、cookie等。<br>SSL诞生于Netscape，是TLS的前辈，都是保障通信安全的加密协议。现在主流的是TLS 1.0和SSL 3.0。更多历史故事不在阐述。</p>
+<h3 id="内容加密"><a href="#内容加密" class="headerlink" title="内容加密"></a>内容加密</h3><p>这里是说对HTTP的报文进行加密，同时客户端和服务器之间有协商好的加密解密机制。HTTP自身没有加密功能，由SSL进行加密的工作。</p>
+<h4 id="共享密钥加密（Common-key-crypto-sytem）"><a href="#共享密钥加密（Common-key-crypto-sytem）" class="headerlink" title="共享密钥加密（Common key crypto sytem）"></a>共享密钥加密（Common key crypto sytem）</h4><p>这种方式也称之为对称密钥加密。加密算法是公开，通信双方都需要一个密钥，密钥是为每个连接单独生成的（The keys for this symmetric encryption are generated uniquely for each connection and are based on a shared secret negotiated at the start of the session），加密解密的时候都得用到这个密钥。这种方式加密时必须把密钥也给对方，危险地方在于一旦通信被监听，被攻击者拿到密钥，加密算法就算被攻破了。</p>
+<h4 id="公开密钥加密（public-key-cryptography）"><a href="#公开密钥加密（public-key-cryptography）" class="headerlink" title="公开密钥加密（public-key cryptography）"></a>公开密钥加密（public-key cryptography）</h4><p>非对称密钥加密。有两把密钥，一个私有密钥，一个公开密钥，私有密钥是严格保密的，公开密钥是公开的。首先发送方使用公开密钥进行加密，接收方收到信息后，在用自己的私有密钥进行解密。过程中，不需要发送用来解密的私有密钥。安全系数较高。不过处理速度要比共享密钥加密慢。</p>
+<h3 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h3><p>还有一个风险，通信过程中的公开密钥可能已经被攻击者替换了。为了证明服务器的公开密钥是真的，证书认证机构（CA）和公开密钥证书就上场了。服务器运营人员向CA申请公开密钥，CA审核通过后，对申请的公开密钥做数字签名，然后就会把该签名和证书做捆绑。</p>
+<p><strong>公钥证书 = 数字签名 + 公钥</strong></p>
+<p>服务器再把这份证书发给客户端，已进行公开密钥加密通信。</p>
+<h3 id="HTTPS通信步骤"><a href="#HTTPS通信步骤" class="headerlink" title="HTTPS通信步骤"></a>HTTPS通信步骤</h3><p>先放一张图，都很熟悉的TCP\IP三次握手<br><img src="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/38/03/metablogapi/2021.080613_0416_SSLHandshak2.png" alt=""></p>
+<p>再来一张msdn的SSL握手。<br><img src="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/38/03/metablogapi/7608.080613_0416_SSLHandshak4.png" alt=""><br>下面客户端用C表示，服务器用S表示。</p>
+<ul>
+<li><p>C向S发出Client Hello报文，附带SSL协议版本号、会话id、加密组件列表（密钥长度、加密方式）</p>
+</li>
+<li><p>S向C发出Server Hello报文，附带SSL协议版本号、会话id、服务器证书（包含公钥）、选择后的加密组件列表（从客户端发来的筛选的）</p>
+</li>
+<li><p>第一次握手结束后，C向S发出Client Key Exchange报文， 包含一个名叫Pre Master Secret的随机码（已用公钥进行加密），目的提示服务器接下来的报文都用Pre Master Secret机密。</p>
+</li>
+<li><p>C继续发Change Clipher Spec，Finished报文。</p>
+</li>
+<li><p>S回应 Change Clipher Spec，Finished报文。</p>
+</li>
+<li><p>安全的通信建立了。</p>
+</li>
+</ul>
+<p>参考资料<br><a href="http://www.ituring.com.cn/book/1229" target="_blank" rel="external">HTTP图解</a></p>
+<p> <a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank" rel="external">https://en.wikipedia.org/wiki/HTTPS</a></p>
+<p> <a href="https://blogs.msdn.microsoft.com/kaushal/2013/08/02/ssl-handshake-and-https-bindings-on-iis/" target="_blank" rel="external">https://blogs.msdn.microsoft.com/kaushal/2013/08/02/ssl-handshake-and-https-bindings-on-iis/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/17/What-Happened/" rel="next" title="What Happened">
+                <i class="fa fa-chevron-left"></i> What Happened
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/29/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/27/HTTPS/"
+           data-title="HTTPS" data-url="http://yoursite.com/2016/11/27/HTTPS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ivan" />
+          <p class="site-author-name" itemprop="name">Ivan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP与HTTPS区别"><span class="nav-number">1.0.1.</span> <span class="nav-text">HTTP与HTTPS区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信加密"><span class="nav-number">1.0.2.</span> <span class="nav-text">通信加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内容加密"><span class="nav-number">1.0.3.</span> <span class="nav-text">内容加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#共享密钥加密（Common-key-crypto-sytem）"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">共享密钥加密（Common key crypto sytem）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#公开密钥加密（public-key-cryptography）"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">公开密钥加密（public-key cryptography）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书"><span class="nav-number">1.0.4.</span> <span class="nav-text">证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS通信步骤"><span class="nav-number">1.0.5.</span> <span class="nav-text">HTTPS通信步骤</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ivan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ivanlikecomment"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

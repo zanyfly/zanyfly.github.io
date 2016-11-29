@@ -1,0 +1,649 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="callkit,来电认证," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CallKit的研究最近帮一个朋友做一个app，他有一个需求，希望来电话时候，可以在来电界面显示来电的相关信息，信息就来自于app内（app内维护一个企业通讯录，来电话的时候即使这个号码不在系统通讯录内，也可以通过app的通讯录查出来）。android肯定是没问题的，再iOS10 之前是不可想的，不过现在iOS 10 开放了CallKit的N多权限，我就研究了下。
+资料查阅官网文档
+demo地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CallKit的研究">
+<meta property="og:url" content="http://yoursite.com/2016/10/01/CallKit的研究/index.html">
+<meta property="og:site_name" content="乌托邦">
+<meta property="og:description" content="CallKit的研究最近帮一个朋友做一个app，他有一个需求，希望来电话时候，可以在来电界面显示来电的相关信息，信息就来自于app内（app内维护一个企业通讯录，来电话的时候即使这个号码不在系统通讯录内，也可以通过app的通讯录查出来）。android肯定是没问题的，再iOS10 之前是不可想的，不过现在iOS 10 开放了CallKit的N多权限，我就研究了下。
+资料查阅官网文档
+demo地址">
+<meta property="og:image" content="https://docs-assets.developer.apple.com/published/553e464591/bcab0864-581b-491f-93c1-4245cf2624c7.png">
+<meta property="og:image" content="http://7xv1kz.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-10-13%20%E4%B8%8A%E5%8D%8811.10.04.png">
+<meta property="og:updated_time" content="2016-10-13T07:37:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CallKit的研究">
+<meta name="twitter:description" content="CallKit的研究最近帮一个朋友做一个app，他有一个需求，希望来电话时候，可以在来电界面显示来电的相关信息，信息就来自于app内（app内维护一个企业通讯录，来电话的时候即使这个号码不在系统通讯录内，也可以通过app的通讯录查出来）。android肯定是没问题的，再iOS10 之前是不可想的，不过现在iOS 10 开放了CallKit的N多权限，我就研究了下。
+资料查阅官网文档
+demo地址">
+<meta name="twitter:image" content="https://docs-assets.developer.apple.com/published/553e464591/bcab0864-581b-491f-93c1-4245cf2624c7.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/01/CallKit的研究/"/>
+
+
+  <title> CallKit的研究 | 乌托邦 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85659127-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=58955822";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乌托邦</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CallKit的研究
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-01T11:51:55+08:00" content="2016-10-01">
+              2016-10-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/01/CallKit的研究/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/01/CallKit的研究/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CallKit的研究"><a href="#CallKit的研究" class="headerlink" title="CallKit的研究"></a>CallKit的研究</h1><p>最近帮一个朋友做一个app，他有一个需求，希望来电话时候，可以在来电界面显示来电的相关信息，信息就来自于app内（app内维护一个企业通讯录，来电话的时候即使这个号码不在系统通讯录内，也可以通过app的通讯录查出来）。android肯定是没问题的，再iOS10 之前是不可想的，不过现在iOS 10 开放了CallKit的N多权限，我就研究了下。</p>
+<p><a href="https://developer.apple.com/reference/callkit?language=objc#overview" target="_blank" rel="external">资料查阅官网文档</a></p>
+<p><a href="https://github.com/zanyfly/ZYCallKitExtension" target="_blank" rel="external">demo地址</a></p>
+<h4 id="认证来电呼叫（Identifying-Incoming-Callers）"><a href="#认证来电呼叫（Identifying-Incoming-Callers）" class="headerlink" title="认证来电呼叫（Identifying Incoming Callers）"></a>认证来电呼叫（Identifying Incoming Callers）</h4><p>app可以创建一个呼叫目录扩展（Call Directory Extension）来认证或者屏蔽来电。字面意思来看，认证来电这项貌似我们的要求匹配。<br>注意：电话号码需要用CXCallDirectoryPhoneNumber（int_64类型）来承载，同时包含了电话号码和国家码，中国是86，没有+。</p>
+<p>iPhone收到来电后，系统首先查询系统通讯录。如果没有匹配信息，再去查找app的Call Directory。找到了，就会显示相关信息。<br>场景：你的某个社交app的好友给你打来电话，但是你根本就没存他的号码，一直都是用app的聊天私信之类的联系。这时候来电显示就能显示出相关信息，而不是纯陌生号码了。</p>
+<h4 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h4><h5 id="1、新建Call-Directory-Extension"><a href="#1、新建Call-Directory-Extension" class="headerlink" title="1、新建Call Directory Extension"></a>1、新建Call Directory Extension</h5><p>新建一个target，选择Application Extensions - Call Directory Extension，注意和主target的bundle id要区分出来。</p>
+<p><img src="https://docs-assets.developer.apple.com/published/553e464591/bcab0864-581b-491f-93c1-4245cf2624c7.png" alt=""></p>
+<h5 id="2、补充代码"><a href="#2、补充代码" class="headerlink" title="2、补充代码"></a>2、补充代码</h5><p>创建完后，工程下会多出一个目录，自动生成CXCallDirectoryProvider子类，根据里面的代码进行补充。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (void)beginRequestWithExtensionContext:(CXCallDirectoryExtensionContext *)context &#123;</div><div class="line">    </div><div class="line">    NSDictionary&lt;NSNumber *, NSString *&gt; *labelsKeyedByPhoneNumber = @&#123;@(8613511111111) :@&quot;我是周杰伦&quot;&#125;;</div><div class="line">    </div><div class="line">    for (NSNumber *phoneNumber in [labelsKeyedByPhoneNumber.allKeys sortedArrayUsingSelector:@selector(compare:)]) &#123;</div><div class="line">        NSString *label = labelsKeyedByPhoneNumber[phoneNumber];</div><div class="line">        [context addIdentificationEntryWithNextSequentialPhoneNumber:(CXCallDirectoryPhoneNumber)[phoneNumber unsignedLongLongValue] label:label];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    [context completeRequestWithCompletionHandler:nil];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="3、关键问题"><a href="#3、关键问题" class="headerlink" title="3、关键问题"></a>3、关键问题</h5><p>app内通讯录数据都是从接口获取的，app第一次启动的时候肯定是没有的。文档上说，上面的方法只在系统启动app扩展的时候调用一次，我们必须在调用的时候就把认证信息都传进去，也就是说想通过接口取网络数据更新认证名单是没戏了。</p>
+<p>demo中，点击get Contact Data按钮会利用NSUserDefaults存储一个简单的数据来模拟获取的通讯录数据，然后在beginRequestWithExtensionContext中进行读取。数据的传递利用app group。</p>
+<p><img src="http://7xv1kz.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-10-13%20%E4%B8%8A%E5%8D%8811.10.04.png" alt="屏幕快照 2016-10-13 上午11.10.04"></p>
+<h5 id="4、总结"><a href="#4、总结" class="headerlink" title="4、总结"></a>4、总结</h5><p>感觉并没有达到我的预期效果，主要问题</p>
+<ol>
+<li>无法更新认证名单</li>
+<li>系统通讯录如果存在这个号码，基本就没作用了。</li>
+<li>卸载了app，通话记录还会存在认证信息。</li>
+</ol>
+<p>iOS的权限开放程度和几年前比真是相差万别，现在系统也越来越花哨，总有一种感觉是为了迎合中国用户的需求。我还是喜欢简洁实用的系统。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/callkit/" rel="tag">#callkit</a>
+          
+            <a href="/tags/来电认证/" rel="tag">#来电认证</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/16/创建自己的本地私有pod（实践）/" rel="next" title="创建自己的本地私有pod（实践）">
+                <i class="fa fa-chevron-left"></i> 创建自己的本地私有pod（实践）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/17/What-Happened/" rel="prev" title="What Happened">
+                What Happened <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/01/CallKit的研究/"
+           data-title="CallKit的研究" data-url="http://yoursite.com/2016/10/01/CallKit的研究/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ivan" />
+          <p class="site-author-name" itemprop="name">Ivan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CallKit的研究"><span class="nav-number">1.</span> <span class="nav-text">CallKit的研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#认证来电呼叫（Identifying-Incoming-Callers）"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">认证来电呼叫（Identifying Incoming Callers）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、新建Call-Directory-Extension"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">1、新建Call Directory Extension</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、补充代码"><span class="nav-number">1.0.0.2.2.</span> <span class="nav-text">2、补充代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、关键问题"><span class="nav-number">1.0.0.2.3.</span> <span class="nav-text">3、关键问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、总结"><span class="nav-number">1.0.0.2.4.</span> <span class="nav-text">4、总结</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ivan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ivanlikecomment"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
