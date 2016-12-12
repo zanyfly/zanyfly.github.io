@@ -264,6 +264,117 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/12/拜读WeMobileDev的博客（一）/" itemprop="url">
+                  拜读WeMobileDev的博客（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-12T17:21:15+08:00" content="2016-12-12">
+              2016-12-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/12/拜读WeMobileDev的博客（一）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/12/拜读WeMobileDev的博客（一）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我比较喜欢看微信团队的博客，许多文章真的受益良多。在我心中微信应该是中国最优秀的移动产品了。接下来会抽空写写读后感，和大家一起分享~~<br>From WeMobileDev</p>
+<p><a href="http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzAwNDY1ODY2OQ==#wechat_webview_type=1&amp;wechat_redirect" target="_blank" rel="external">多屏适配经验分享，来自微信团队</a></p>
+<p>文章提到利用CSS作为UI界面元素配置，在github上找到一份代码<a href="https://github.com/Awhisper/VKCssProtocol" target="_blank" rel="external">VKCssProtocol</a>，版权说明作者来自baidu，可以看下。</p>
+<p><strong>技术点</strong><br>1、监听css文件修改变化，利用开源库<br><a href="https://github.com/graetzer/DirectoryWatchdog" target="_blank" rel="external">DirectoryWatchdog</a></p>
+<p>2、解析css文件<br>    项目中解析的是一个只有类选择器的css文件。这个比较简单，就是解析字符串，每个选择器作为一个大的主键，对应内部所有的属性和属性值。ps:根据微信团队的说明，其实可以自己制定规则、增加关键字，制作配置文件，并不局限css文件。</p>
+<p>3、为元素赋值</p>
+<p>VKBackgroundcolorStyle、VKFontColorStyle等所有的类都遵守VKCssStyleProtocol协议。比如VKBackgroundcolorStyle负责完成为UIKit控件完成背景色的渲染。</p>
+<p>VKCssStyleManager是总的调度器，使用时传入target（具体的UIKit对象）、styleName（具体的属性，例如background-color）、styleValue（属性值，例如orange）。它会根据styleName类型选择正确的执行器（实现VKCssStyleProtocol的Class指针），然后完成具体的工作。其实就是利用category，为UIKit控件增加绘制圆角、文字颜色、边框颜色都一系列方法。</p>
+<p>这里面有个点，VKCssStyleManager内部注册的所有执行器都是这样的格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">class&lt;someProtocaol&gt;**</div></pre></td></tr></table></figure></p>
+<p>不是我们熟悉的<br><code>id&lt;someProtocaol&gt;**</code><br>原因就是作者是在每个执行器的load函数中进行注册存储，load函数是class方法。如果为此创建一个单例，没有必要。所以直接使用load中的self指针，class类型。</p>
+<p><strong>小疑问</strong><br>不过我不赞成在load函数中进行注册，不同的类之间的 +load 方法的调用顺序是不确定的，如何能确保执行器调用load的时候，VKCssStyleManager已经加载完成呢。。。还望知道答案的同学给下答案。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/27/HTTPS/" itemprop="url">
                   HTTPS
                 </a>
@@ -886,7 +997,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
