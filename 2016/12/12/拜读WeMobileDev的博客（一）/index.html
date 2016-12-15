@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next muse use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/12/12/拜读WeMobileDev的博客（一）/index.html">
 <meta property="og:site_name" content="乌托邦">
 <meta property="og:description" content="序现在是2016年12月初，山东这的天气已经非常寒冷。一年临近尾声的时候，差不多该准备写年中总结了。给公司一份，给领导看的。对自己一份，给自己看的。今年整体来说技术和工资有了增长，但感叹在这互联网贫瘠之地，还有很多事不如意。在窘境中，只能告诫自己认认真真、踏踏实实、韬光养晦。扯多了，开始正题。我认为，微信是中国目前最优秀的移动APP了，不仅限于社交领域。作为程序员的我，非常喜欢看微信技术团队的博客">
-<meta property="og:updated_time" content="2016-12-15T01:54:42.000Z">
+<meta property="og:updated_time" content="2016-12-15T14:41:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拜读WeMobileDev的博客（一）">
 <meta name="twitter:description" content="序现在是2016年12月初，山东这的天气已经非常寒冷。一年临近尾声的时候，差不多该准备写年中总结了。给公司一份，给领导看的。对自己一份，给自己看的。今年整体来说技术和工资有了增长，但感叹在这互联网贫瘠之地，还有很多事不如意。在窘境中，只能告诫自己认认真真、踏踏实实、韬光养晦。扯多了，开始正题。我认为，微信是中国目前最优秀的移动APP了，不仅限于社交领域。作为程序员的我，非常喜欢看微信技术团队的博客">
@@ -118,7 +118,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Pisces',
+    scheme: 'Muse',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -330,7 +330,7 @@
       
 
       
-        <h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>现在是2016年12月初，山东这的天气已经非常寒冷。一年临近尾声的时候，差不多该准备写年中总结了。给公司一份，给领导看的。对自己一份，给自己看的。<br>今年整体来说技术和工资有了增长，但感叹在这互联网贫瘠之地，还有很多事不如意。在窘境中，只能告诫自己认认真真、踏踏实实、韬光养晦。扯多了，开始正题。<br>我认为，微信是中国目前最优秀的移动APP了，不仅限于社交领域。作为程序员的我，非常喜欢看微信技术团队的博客，许多文章让人受益良多。接下来会抽空写写读后感，和大家一起分享。<br>下面分享的是一个微信关于文字适配的技术方案。不单单文字，图像、控件、文字等一切需要随着屏幕大小变化而变化的元素，都要有个扩展适配方案。当我们拿到RP图或者效果图（我一直以750*1134物理分辨率为标准尺寸）时，脑海中就应该有了一个在自由变化的雏形，不应当把全部的适配责任都推给产品或者UI。</p>
+        <h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>现在是2016年12月初，山东这的天气已经非常寒冷。一年临近尾声的时候，差不多该准备写年中总结了。给公司一份，给领导看的。对自己一份，给自己看的。<br>今年整体来说技术和工资有了增长，但感叹在这互联网贫瘠之地，还有很多事不如意。在窘境中，只能告诫自己认认真真、踏踏实实、韬光养晦。扯多了，开始正题。<br>我认为，微信是中国目前最优秀的移动APP了，不仅限于社交领域。作为程序员的我，非常喜欢看微信技术团队的博客，许多文章让人受益良多。接下来会抽空写写读后感，和大家一起分享。<br>下面分享的是一个微信关于文字适配的技术方案。移动设备尺寸不一，不单单文字，图像、控件、布局等一切需要随着屏幕大小变化而变化的元素，都要有个扩展适配方案。作为一个合格的前端开发者(移动端某种程度也是前端)，当我们拿到RP图或者效果图（我一直以750*1134物理分辨率为标准尺寸）时，脑海中就应该有了一个在自由变化的雏形，不应当把全部的适配责任都推给产品或者UI。</p>
 <h2 id="多屏幕字体适配"><a href="#多屏幕字体适配" class="headerlink" title="多屏幕字体适配"></a>多屏幕字体适配</h2><p><a href="http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzAwNDY1ODY2OQ==#wechat_webview_type=1&amp;wechat_redirect" target="_blank" rel="external">多屏适配经验分享，来自微信团队</a></p>
 <p>文章提到利用类似CSS的文件配置UI界面元素，无论对于设计人员还是开发人员，都可以节省大量工作量。UI设计师可以直接修改配置文件，热插拔一样的直接查看即时效果。这个方案可能不大适合某些团队，不过这个思想还是很不错的，在github上找到一份代码<a href="https://github.com/Awhisper/VKCssProtocol" target="_blank" rel="external">VKCssProtocol</a>，版权说明作者来自baidu，可以看下。</p>
 <h2 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h2><h3 id="1、监听css文件修改变化，利用开源库"><a href="#1、监听css文件修改变化，利用开源库" class="headerlink" title="1、监听css文件修改变化，利用开源库"></a>1、监听css文件修改变化，利用开源库</h3><p><a href="https://github.com/graetzer/DirectoryWatchdog" target="_blank" rel="external">DirectoryWatchdog</a></p>
@@ -436,7 +436,7 @@
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/images/header.JPG"
                alt="Ivan" />
           <p class="site-author-name" itemprop="name">Ivan</p>
           <p class="site-description motion-element" itemprop="description"></p>
@@ -516,7 +516,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Muse
   </a>
 </div>
 
@@ -581,13 +581,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
